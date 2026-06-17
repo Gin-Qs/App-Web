@@ -30,7 +30,9 @@ export async function getCurrentProfile(
 
   const { data, error } = await client
     .from('profiles')
-    .select('*, company:companies(*)')
+    // Disambiguate the FK: profiles links to companies both directly
+    // (company_id) and indirectly (account_assignments), so name the FK.
+    .select('*, company:companies!profiles_company_id_fkey(*)')
     .eq('id', user.id)
     .maybeSingle()
 

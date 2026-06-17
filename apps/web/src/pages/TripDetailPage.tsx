@@ -13,7 +13,7 @@ import {
   type TripWithCompany,
 } from '@ginqs/core'
 import { supabase } from '../lib/supabase'
-import { Badge, Card, EmptyState } from '../components/ui'
+import { Badge, Card, Chip, EmptyState } from '../components/ui'
 import { LiveMap, type MapMarker } from '../components/LiveMap'
 
 export function TripDetailPage() {
@@ -92,8 +92,16 @@ export function TripDetailPage() {
       </div>
 
       <Card
-        title="📍 Recorrido"
-        action={isActive ? <Badge tone="info">En vivo</Badge> : undefined}
+        title="Recorrido"
+        action={
+          isActive ? (
+            <span className="chips">
+              <Chip online>EN VIVO</Chip>
+              <Chip>GPS</Chip>
+              <Chip>LTE</Chip>
+            </span>
+          ) : undefined
+        }
       >
         {markers.length ? (
           <LiveMap markers={markers} trail={trailPoints} height={420} />

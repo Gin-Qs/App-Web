@@ -35,11 +35,13 @@ begin
     else
       remaining := sqrt(power(t.destination_lat - last.lat, 2) + power(t.destination_lon - last.lon, 2));
       if remaining < 0.05 then
-        update public.trips set status = 'delivered', delivered_at = now() where id = t.id;
-        continue;
+        -- Loop back to origin to keep the demo fleet perpetually in motion.
+        next_lat := coalesce(t.origin_lat, t.destination_lat);
+        next_lon := coalesce(t.origin_lon, t.destination_lon);
+      else
+        next_lat := last.lat + (t.destination_lat - last.lat) * step;
+        next_lon := last.lon + (t.destination_lon - last.lon) * step;
       end if;
-      next_lat := last.lat + (t.destination_lat - last.lat) * step;
-      next_lon := last.lon + (t.destination_lon - last.lon) * step;
     end if;
 
     insert into public.trip_locations (trip_id, lat, lon, speed_kph, heading, recorded_at)

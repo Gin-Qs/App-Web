@@ -28,15 +28,19 @@ export function LandingPage() {
       </header>
 
       <section className="hero">
+        <div className="hero-ghost" aria-hidden="true">
+          EN MOVIMIENTO
+        </div>
         <div className="hero-inner">
-          <h1>Logística B2B con visibilidad de carga en tiempo real</h1>
+          <span className="eyebrow">● Rastreo en vivo · Logística B2B</span>
+          <h1>Tu carga, visible en tiempo real.</h1>
           <p>
             Movemos la carga de tu empresa con operaciones confiables, rastreo transparente y
-            visibilidad financiera — todo en un solo lugar.
+            visibilidad financiera — todo en una sola plataforma.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-primary btn-lg" to="/login">
-              Entrar a mi panel
+              Entrar a mi panel →
             </Link>
             <a className="btn btn-outline btn-lg" href="#servicios">
               Conocer servicios
@@ -49,6 +53,25 @@ export function LandingPage() {
           </div>
         </div>
       </section>
+
+      <div className="stat-strip">
+        <div>
+          <div className="big">99.4%</div>
+          <div className="lbl">Entregas a tiempo</div>
+        </div>
+        <div>
+          <div className="big">24/7</div>
+          <div className="lbl">Monitoreo de flota</div>
+        </div>
+        <div>
+          <div className="big">+150</div>
+          <div className="lbl">Clientes B2B</div>
+        </div>
+        <div>
+          <div className="big">&lt; 2 min</div>
+          <div className="lbl">Actualización de posición</div>
+        </div>
+      </div>
 
       <section className="section" id="nosotros">
         <h2>Quiénes somos</h2>

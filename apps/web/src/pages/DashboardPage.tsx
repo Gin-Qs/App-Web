@@ -23,8 +23,10 @@ import {
 } from '@ginqs/core'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../auth/AuthProvider'
-import { Badge, Card, EmptyState, StatCard } from '../components/ui'
+import { Badge, Card, Chip, EmptyState, RouteSpark, StatCard, Tabs } from '../components/ui'
 import { LiveMap, type MapMarker } from '../components/LiveMap'
+
+type View = 'operacion' | 'clientes' | 'finanzas'
 
 export function DashboardPage() {
   const { profile } = useAuth()
@@ -99,6 +101,13 @@ export function DashboardPage() {
   const creditLimit = profile?.company?.credit_limit ?? 0
   const overdueCount = openInvoices.filter((i) => i.status === 'overdue').length
 
+  const [view, setView] = useState<View>('operacion')
+  const tabItems = [
+    { id: 'operacion', label: 'Operación' },
+    ...(isStaff ? [{ id: 'clientes', label: 'Clientes' }] : []),
+    { id: 'finanzas', label: 'Finanzas' },
+  ]
+
   if (loading) return <div className="page-loading">Cargando panel…</div>
 
   return (
@@ -130,86 +139,107 @@ export function DashboardPage() {
         )}
       </div>
 
-      {/* Live map */}
-      <Card title="📍 Ubicación en vivo" action={<Badge tone="info">{markers.length} en mapa</Badge>}>
-        {markers.length ? (
-          <LiveMap markers={markers} height={360} />
-        ) : (
-          <EmptyState>No hay viajes activos con ubicación por ahora.</EmptyState>
-        )}
-      </Card>
+      <Tabs items={tabItems} active={view} onChange={(id) => setView(id as View)} />
 
-      <div className="dash-grid">
-        {/* Active trips */}
-        <Card title={isStaff ? 'Viajes en curso' : 'Mis envíos activos'}>
-          {activeTrips.length ? (
-            <ul className="rows">
-              {activeTrips.map((t) => (
-                <li key={t.id} className="row">
-                  <div>
-                    <Link to={`/app/trips/${t.id}`} className="row-title">
-                      {t.reference}
-                    </Link>
-                    <div className="row-sub">
-                      {isStaff && t.company?.name ? `${t.company.name} · ` : ''}
-                      {t.origin_label} → {t.destination_label}
-                    </div>
-                    {t.latest_location && (
-                      <div className="row-meta">
-                        Última posición {formatRelative(t.latest_location.recorded_at)} ·{' '}
-                        {t.latest_location.lat.toFixed(3)}, {t.latest_location.lon.toFixed(3)}
+      {view === 'operacion' && (
+        <>
+          {/* Live map */}
+          <Card
+            title="Ubicación en vivo"
+            action={
+              <span className="chips">
+                <Chip online>EN VIVO</Chip>
+                <Chip>{markers.length} GPS</Chip>
+              </span>
+            }
+          >
+            {markers.length ? (
+              <LiveMap markers={markers} height={380} />
+            ) : (
+              <EmptyState>No hay viajes activos con ubicación por ahora.</EmptyState>
+            )}
+          </Card>
+
+          <div className="dash-grid">
+            <Card title={isStaff ? 'Viajes en curso' : 'Mis envíos activos'}>
+              {activeTrips.length ? (
+                <ul className="rows">
+                  {activeTrips.map((t) => (
+                    <li key={t.id} className="row">
+                      <div className="row-main">
+                        <Link to={`/app/trips/${t.id}`} className="row-title">
+                          {t.reference}
+                        </Link>
+                        <div className="row-sub">
+                          {isStaff && t.company?.name ? `${t.company.name} · ` : ''}
+                          {t.origin_label} → {t.destination_label}
+                        </div>
+                        <div className="chips">
+                          <Chip online={t.status === 'in_transit'}>
+                            {t.status === 'in_transit' ? 'EN RUTA' : TRIP_STATUS_LABELS[t.status]}
+                          </Chip>
+                          <Chip>GPS</Chip>
+                          <Chip>LTE</Chip>
+                          {t.latest_location && (
+                            <Chip>{formatRelative(t.latest_location.recorded_at)}</Chip>
+                          )}
+                        </div>
+                        <RouteSpark
+                          points={[
+                            [t.origin_lat ?? NaN, t.origin_lon ?? NaN],
+                            ...(t.latest_location
+                              ? ([[t.latest_location.lat, t.latest_location.lon]] as Array<[number, number]>)
+                              : []),
+                            [t.destination_lat ?? NaN, t.destination_lon ?? NaN],
+                          ]}
+                          progressIndex={t.latest_location ? 1 : 0}
+                        />
                       </div>
-                    )}
+                      <Badge tone={tripStatusTone(t.status)}>{TRIP_STATUS_LABELS[t.status]}</Badge>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <EmptyState>Sin viajes activos.</EmptyState>
+              )}
+            </Card>
+
+            <Card title="Viajes anteriores">
+              <PastTripsList trips={pastTrips} showCompany={isStaff} />
+            </Card>
+          </div>
+        </>
+      )}
+
+      {view === 'clientes' && isStaff && (
+        <Card title="Clientes">
+          {companies.length ? (
+            <ul className="rows">
+              {companies.map((c) => (
+                <li key={c.id} className="row">
+                  <div className="row-main">
+                    <div className="row-title">{c.name}</div>
+                    <div className="row-sub">{c.address ?? c.rfc ?? ''}</div>
                   </div>
-                  <Badge tone={tripStatusTone(t.status)}>{TRIP_STATUS_LABELS[t.status]}</Badge>
+                  <span className="row-meta">{formatCurrency(c.credit_limit, c.currency)}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <EmptyState>Sin viajes activos.</EmptyState>
+            <EmptyState>Sin clientes asignados.</EmptyState>
           )}
         </Card>
+      )}
 
-        {/* Customers (staff) OR Past trips (customer) */}
-        {isStaff ? (
-          <Card title="Clientes">
-            {companies.length ? (
-              <ul className="rows">
-                {companies.map((c) => (
-                  <li key={c.id} className="row">
-                    <div>
-                      <div className="row-title">{c.name}</div>
-                      <div className="row-sub">{c.address ?? c.rfc ?? ''}</div>
-                    </div>
-                    <span className="row-meta">{formatCurrency(c.credit_limit, c.currency)}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <EmptyState>Sin clientes asignados.</EmptyState>
-            )}
+      {view === 'finanzas' && (
+        <div className="dash-grid">
+          <Card title={isStaff ? 'Facturas por cobrar' : 'Factura actual'}>
+            <InvoiceList invoices={openInvoices} showCompany={isStaff} companies={companies} />
           </Card>
-        ) : (
-          <Card title="Viajes anteriores">
-            <PastTripsList trips={pastTrips} showCompany={false} />
+          <Card title="Facturas pagadas">
+            <InvoiceList invoices={paidInvoices} showCompany={isStaff} companies={companies} />
           </Card>
-        )}
-
-        {/* Open invoices */}
-        <Card title={isStaff ? 'Facturas por cobrar' : 'Factura actual'}>
-          <InvoiceList invoices={openInvoices} showCompany={isStaff} companies={companies} />
-        </Card>
-
-        {/* Paid invoices */}
-        <Card title="Facturas pagadas">
-          <InvoiceList invoices={paidInvoices} showCompany={isStaff} companies={companies} />
-        </Card>
-      </div>
-
-      {isStaff && (
-        <Card title="Viajes anteriores">
-          <PastTripsList trips={pastTrips} showCompany />
-        </Card>
+        </div>
       )}
     </div>
   )
