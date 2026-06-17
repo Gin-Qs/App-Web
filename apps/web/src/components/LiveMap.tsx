@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import L from 'leaflet'
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from 'react-leaflet'
+import { useTheme } from '../theme'
 
 export interface MapMarker {
   id: string
@@ -57,13 +58,16 @@ export function LiveMap({ markers, trail, height = 320, fallbackCenter = [23.634
   }, [markers, trail])
 
   const center = points[0] ?? fallbackCenter
+  const [theme] = useTheme()
+  const tileStyle = theme === 'light' ? 'light_all' : 'dark_all'
 
   return (
     <div className="map-wrap" style={{ height }}>
       <MapContainer center={center} zoom={6} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
         <TileLayer
+          key={tileStyle}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url={`https://{s}.basemaps.cartocdn.com/${tileStyle}/{z}/{x}/{y}{r}.png`}
         />
         {trail && trail.length > 1 && (
           <Polyline positions={trail} pathOptions={{ color: '#e65100', weight: 3, opacity: 0.65 }} />

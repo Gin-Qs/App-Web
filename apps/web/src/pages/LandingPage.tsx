@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { ThemeToggle } from '../components/ThemeToggle'
 
 export function LandingPage() {
   const [sent, setSent] = useState(false)
@@ -18,6 +19,7 @@ export function LandingPage() {
           Fleet<span>er</span>
         </div>
         <nav>
+          <ThemeToggle />
           <a className="btn btn-ghost" href="#contacto">
             Solicitar información
           </a>

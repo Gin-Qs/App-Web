@@ -25,8 +25,9 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../auth/AuthProvider'
 import { Badge, Card, Chip, EmptyState, RouteSpark, StatCard, Tabs } from '../components/ui'
 import { LiveMap, type MapMarker } from '../components/LiveMap'
+import { BarChart, Gauge, Sparkline } from '../components/charts'
 
-type View = 'operacion' | 'clientes' | 'finanzas'
+type View = 'operacion' | 'analytics' | 'clientes' | 'finanzas'
 
 export function DashboardPage() {
   const { profile } = useAuth()
@@ -104,6 +105,7 @@ export function DashboardPage() {
   const [view, setView] = useState<View>('operacion')
   const tabItems = [
     { id: 'operacion', label: 'Operación' },
+    ...(isStaff ? [{ id: 'analytics', label: 'Analytics' }] : []),
     ...(isStaff ? [{ id: 'clientes', label: 'Clientes' }] : []),
     { id: 'finanzas', label: 'Finanzas' },
   ]
@@ -211,6 +213,14 @@ export function DashboardPage() {
         </>
       )}
 
+      {view === 'analytics' && isStaff && (
+        <AnalyticsView
+          invoices={[...openInvoices, ...paidInvoices]}
+          activeCount={activeTrips.length}
+          markers={markers}
+        />
+      )}
+
       {view === 'clientes' && isStaff && (
         <Card title="Clientes">
           {companies.length ? (
@@ -297,5 +307,96 @@ function InvoiceList({
         </li>
       ))}
     </ul>
+  )
+}
+
+const MONTHS_ES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+
+/** Sum invoice amounts into the last 6 calendar months (real data). */
+function revenueByMonth(invoices: Invoice[]): { labels: string[]; data: number[] } {
+  const now = new Date()
+  const buckets: { key: string; label: string; total: number }[] = []
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    buckets.push({ key: `${d.getFullYear()}-${d.getMonth()}`, label: MONTHS_ES[d.getMonth()], total: 0 })
+  }
+  const index = new Map(buckets.map((b, i) => [b.key, i]))
+  for (const inv of invoices) {
+    if (!inv.issued_at) continue
+    const d = new Date(inv.issued_at)
+    const idx = index.get(`${d.getFullYear()}-${d.getMonth()}`)
+    if (idx != null) buckets[idx].total += Number(inv.amount)
+  }
+  return { labels: buckets.map((b) => b.label), data: buckets.map((b) => Math.round(b.total / 1000)) }
+}
+
+function AnalyticsView({
+  invoices,
+  activeCount,
+  markers,
+}: {
+  invoices: Invoice[]
+  activeCount: number
+  markers: MapMarker[]
+}) {
+  const revenue = revenueByMonth(invoices)
+  const totalRevenue = invoices.reduce((s, i) => s + Number(i.amount), 0)
+
+  // Representative operational metrics for the demo (replace with telemetry KPIs).
+  const efficiencyTrend = [72, 75, 71, 78, 76, 80, 78, 82, 79]
+  const fuel = [6.2, 6.8, 6.5, 7.0, 6.9, 7.1, 6.7]
+  const fuelLabels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
+  const safety = [2, 1, 0, 1, 3, 0, 1]
+
+  return (
+    <div className="analytics">
+      <div className="stats-grid">
+        <StatCard label="Eficiencia operativa" value="78.3%" hint="Meta 80%" tone="info" />
+        <StatCard label="Cumplimiento a tiempo" value="96%" tone="success" />
+        <StatCard label="Facturación 6 meses" value={formatCurrency(totalRevenue)} />
+        <StatCard label="Viajes activos" value={activeCount} />
+      </div>
+
+      <div className="dash-grid">
+        <Card title="Eficiencia operativa">
+          <div className="metric-row">
+            <Gauge value={78.3} />
+            <div>
+              <div className="metric-big">78.3%</div>
+              <div className="muted">Tendencia 9 semanas</div>
+            </div>
+          </div>
+          <Sparkline data={efficiencyTrend} height={64} />
+        </Card>
+
+        <Card title="Facturación por mes (miles MXN)">
+          <BarChart data={revenue.data} labels={revenue.labels} height={120} />
+        </Card>
+
+        <Card title="Consumo de combustible">
+          <div className="metric-row">
+            <div className="metric-big">6.8 <small>MPG</small></div>
+            <div className="muted">Promedio de flota</div>
+          </div>
+          <BarChart data={fuel} labels={fuelLabels} height={90} color="var(--warn)" />
+        </Card>
+
+        <Card title="Incidencias de seguridad">
+          <div className="metric-row">
+            <div className="metric-big">0.12</div>
+            <div className="muted">Índice semanal</div>
+          </div>
+          <BarChart data={safety} labels={fuelLabels} height={90} color="var(--danger)" />
+        </Card>
+      </div>
+
+      <Card title="Mapa de rutas" action={<Chip online>EN VIVO</Chip>}>
+        {markers.length ? (
+          <LiveMap markers={markers} height={320} />
+        ) : (
+          <EmptyState>Sin rutas activas.</EmptyState>
+        )}
+      </Card>
+    </div>
   )
 }

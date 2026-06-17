@@ -1,5 +1,6 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
+import { ThemeToggle } from './ThemeToggle'
 
 export function AppShell() {
   const { profile, logout } = useAuth()
@@ -33,6 +34,7 @@ export function AppShell() {
               {profile?.company?.name ? ` · ${profile.company.name}` : ''}
             </span>
           </div>
+          <ThemeToggle />
           <button className="btn btn-ghost" onClick={handleLogout}>
             Salir
           </button>
