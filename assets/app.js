@@ -1,4 +1,7 @@
 (function () {
+  const SIMULATED_MOVEMENT_DELTA = 0.01;
+  const MAP_BBOX_OFFSET = 0.2;
+
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', function (event) {
@@ -48,15 +51,18 @@
     const liveMap = document.getElementById('live-map');
     let lat = 25.7617;
     let lon = -80.1918;
+    let liveMapIntervalId;
 
     function updateLiveMap() {
-      lat += 0.01;
-      lon += 0.01;
+      lat += SIMULATED_MOVEMENT_DELTA;
+      lon += SIMULATED_MOVEMENT_DELTA;
       liveCoords.textContent = `Latest position: ${lat.toFixed(4)}, ${lon.toFixed(4)}`;
-      liveMap.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - 0.2}%2C${lat - 0.2}%2C${lon + 0.2}%2C${lat + 0.2}&layer=mapnik&marker=${lat}%2C${lon}`;
+      liveMap.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - MAP_BBOX_OFFSET}%2C${lat - MAP_BBOX_OFFSET}%2C${lon + MAP_BBOX_OFFSET}%2C${lat + MAP_BBOX_OFFSET}&layer=mapnik&marker=${lat}%2C${lon}`;
     }
 
     updateLiveMap();
-    window.setInterval(updateLiveMap, 5000);
+    if (!liveMapIntervalId) {
+      liveMapIntervalId = window.setInterval(updateLiveMap, 5000);
+    }
   }
 })();
