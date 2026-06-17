@@ -15,7 +15,7 @@ export function LandingPage() {
     <div className="landing">
       <header className="top-nav">
         <div className="brand">
-          Gin-Qs <span>Logistics</span>
+          Fleet<span>er</span>
         </div>
         <nav>
           <a className="btn btn-ghost" href="#contacto">
@@ -32,11 +32,11 @@ export function LandingPage() {
           EN MOVIMIENTO
         </div>
         <div className="hero-inner">
-          <span className="eyebrow">● Rastreo en vivo · Logística B2B</span>
+          <span className="eyebrow">● Rastreo GPS en vivo · Transporte de carga</span>
           <h1>Tu carga, visible en tiempo real.</h1>
           <p>
-            Movemos la carga de tu empresa con operaciones confiables, rastreo transparente y
-            visibilidad financiera — todo en una sola plataforma.
+            Transporte de carga profesional con tecnología. Sabemos dónde está tu carga en todo
+            momento, facturamos al día y tú nunca tienes que preguntar.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-primary btn-lg" to="/login">
@@ -47,9 +47,9 @@ export function LandingPage() {
             </a>
           </div>
           <div className="hero-badges">
-            <span>📍 Rastreo en vivo</span>
-            <span>🧾 Facturación y crédito</span>
-            <span>📦 Historial de viajes</span>
+            <span>📍 Rastreo GPS en vivo</span>
+            <span>🧾 CFDI + Carta Porte</span>
+            <span>❄️ Cadena de frío</span>
           </div>
         </div>
       </section>
@@ -76,30 +76,41 @@ export function LandingPage() {
       <section className="section" id="nosotros">
         <h2>Quiénes somos</h2>
         <p className="lead">
-          Gin-Qs apoya cadenas de suministro modernas con planeación de rutas, monitoreo de carga en
-          vivo y atención a clientes basada en datos. Operamos con un enfoque de transparencia total:
-          tú siempre sabes dónde está tu carga y cuál es tu estado de cuenta.
+          En México, la mayoría del transporte de carga opera sin factura, sin seguro y sin
+          visibilidad. Fleeter cambia eso. Somos una empresa de tecnología que mueve carga:
+          trazabilidad en tiempo real, comunicación proactiva y formalidad fiscal en cada viaje.
+        </p>
+        <p className="lead" style={{ marginTop: '1rem', color: 'var(--accent-2)', fontWeight: 600 }}>
+          “No somos el más barato; somos el que no te deja colgado.”
         </p>
       </section>
 
       <section className="section alt" id="servicios">
-        <h2>Servicios</h2>
+        <h2>Lo que entregamos en cada viaje</h2>
         <div className="features">
           <article>
-            <h3>📍 Rastreo en tiempo real</h3>
-            <p>Ubicación en vivo de cada viaje sobre mapa, con histórico de recorrido y ETA.</p>
+            <h3>📍 Trazabilidad en tiempo real</h3>
+            <p>GPS con link compartible para que veas tu carga en todo momento, con histórico y ETA.</p>
           </article>
           <article>
-            <h3>🧾 Facturación y crédito</h3>
-            <p>Factura actual, facturas pagadas y línea de crédito disponible siempre a la vista.</p>
+            <h3>📣 Comunicación proactiva</h3>
+            <p>7 puntos de contacto por viaje. El cliente nunca tiene que preguntar.</p>
           </article>
           <article>
-            <h3>📦 Historial de viajes</h3>
-            <p>Registro completo de viajes y entregas para auditoría y planeación.</p>
+            <h3>🧾 Facturación completa</h3>
+            <p>CFDI + Carta Porte dentro de 24 horas. 100% deducible.</p>
           </article>
           <article>
-            <h3>👥 Paneles por rol</h3>
-            <p>Vistas dedicadas para clientes y para el equipo operativo de Gin-Qs.</p>
+            <h3>🛡️ Seguridad documentada</h3>
+            <p>GPS, candados satelitales, botón de pánico y seguros completos.</p>
+          </article>
+          <article>
+            <h3>❄️ Garantía de cadena de frío</h3>
+            <p>Monitoreo de temperatura en tiempo real para perecederos.</p>
+          </article>
+          <article>
+            <h3>📊 Reportes mensuales</h3>
+            <p>Métricas de cumplimiento reales para tus registros y decisiones.</p>
           </article>
         </div>
       </section>
@@ -133,7 +144,7 @@ export function LandingPage() {
       </section>
 
       <footer className="site-footer">
-        <span>© {new Date().getFullYear()} Gin-Qs Logistics</span>
+        <span>© {new Date().getFullYear()} Fleeter Soluciones Logísticas S.A. de C.V.</span>
         <Link to="/login">Iniciar sesión</Link>
       </footer>
     </div>

@@ -1,35 +1,37 @@
 :root {
+  /* Fleeter brand — charcoal base, Naranja Fleeter accent (dark-mode variant) */
   /* surfaces */
-  --bg: #05070d;
-  --bg-2: #080b14;
-  --surface: rgba(255, 255, 255, 0.038);
-  --surface-2: rgba(255, 255, 255, 0.06);
-  --glass-border: rgba(255, 255, 255, 0.09);
-  --glass-border-strong: rgba(255, 255, 255, 0.16);
+  --bg: #141416;
+  --bg-2: #1c1c1f;
+  --surface: rgba(255, 255, 255, 0.042);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-strong: rgba(255, 255, 255, 0.18);
 
-  /* ink */
-  --ink: #eef2fb;
-  --ink-dim: #aab3c5;
-  --muted: #6b7488;
+  /* ink (neutral charcoal/gray family) */
+  --ink: #f3f2f1;
+  --ink-dim: #bdb9b5;
+  --muted: #847f7a;
 
-  /* accent */
-  --accent: #3b6dff;
-  --accent-2: #6f9bff;
-  --accent-soft: rgba(59, 109, 255, 0.16);
-  --glow: 0 0 0 1px rgba(59, 109, 255, 0.4), 0 8px 30px rgba(59, 109, 255, 0.35);
+  /* accent — Naranja Fleeter #E65100 */
+  --accent: #e65100;
+  --accent-2: #ff7a33;
+  --accent-soft: rgba(230, 81, 0, 0.16);
+  --glow: 0 0 0 1px rgba(230, 81, 0, 0.45), 0 8px 30px rgba(230, 81, 0, 0.4);
 
-  /* status */
-  --ok: #34d399;
-  --warn: #fbbf24;
-  --danger: #fb6a6a;
+  /* status (brand palette, brightened for dark UI) */
+  --ok: #43c267; /* Éxito #2E7D32 */
+  --warn: #f9a825; /* Alerta #F57F17 */
+  --danger: #ef5350; /* Error #C62828 */
+  --info: #4f8df0; /* Info #1565C0 */
 
   --radius: 16px;
   --radius-sm: 11px;
-  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 16px 40px rgba(0, 0, 0, 0.45);
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 16px 40px rgba(0, 0, 0, 0.5);
 
   color-scheme: dark;
   font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --display: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 * {
@@ -44,8 +46,8 @@ body {
   margin: 0;
   color: var(--ink);
   background:
-    radial-gradient(1100px 700px at 78% -10%, rgba(59, 109, 255, 0.18), transparent 60%),
-    radial-gradient(900px 600px at 8% 8%, rgba(111, 155, 255, 0.10), transparent 55%),
+    radial-gradient(1100px 700px at 78% -10%, rgba(230, 81, 0, 0.18), transparent 60%),
+    radial-gradient(900px 600px at 8% 8%, rgba(255, 122, 51, 0.10), transparent 55%),
     linear-gradient(180deg, var(--bg-2), var(--bg));
   background-attachment: fixed;
   line-height: 1.5;
@@ -97,10 +99,10 @@ h3 {
   background: linear-gradient(180deg, var(--accent-2), var(--accent));
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 8px 24px rgba(59, 109, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(230, 81, 0, 0.4);
 }
 .btn-primary:hover {
-  box-shadow: 0 10px 30px rgba(59, 109, 255, 0.55);
+  box-shadow: 0 10px 30px rgba(230, 81, 0, 0.55);
 }
 .btn-outline {
   background: transparent;
@@ -146,7 +148,7 @@ h3 {
   height: 22px;
   border-radius: 7px;
   background: linear-gradient(150deg, var(--accent-2), var(--accent));
-  box-shadow: 0 0 14px rgba(59, 109, 255, 0.7);
+  box-shadow: 0 0 14px rgba(230, 81, 0, 0.7);
 }
 
 /* ---------- Forms ---------- */
@@ -258,7 +260,7 @@ h3 {
   border: 1px solid var(--glass-border);
   overflow: hidden;
   background:
-    radial-gradient(120% 120% at 80% 0%, rgba(59, 109, 255, 0.22), transparent 55%),
+    radial-gradient(120% 120% at 80% 0%, rgba(230, 81, 0, 0.22), transparent 55%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
 }
 /* giant ghost word behind the hero, editorial style */
@@ -531,7 +533,7 @@ h3 {
 .tab.active {
   background: var(--accent-soft);
   color: #fff;
-  box-shadow: inset 0 0 0 1px rgba(59, 109, 255, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(230, 81, 0, 0.4);
 }
 
 .stats-grid {
@@ -738,7 +740,7 @@ a.row-title:hover {
 .badge-info {
   background: var(--accent-soft);
   color: var(--accent-2);
-  border-color: rgba(59, 109, 255, 0.35);
+  border-color: rgba(230, 81, 0, 0.35);
 }
 .badge-warn {
   background: rgba(251, 191, 36, 0.14);
@@ -769,7 +771,7 @@ a.row-title:hover {
 }
 .leaflet-container {
   font: inherit;
-  background: #0a0e16;
+  background: #141416;
 }
 .leaflet-control-attribution {
   background: rgba(0, 0, 0, 0.6) !important;
@@ -783,9 +785,9 @@ a.row-title:hover {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--pin, #3b6dff);
+  background: var(--pin, #e65100);
   border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pin, #3b6dff) 40%, transparent), 0 2px 8px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pin, #e65100) 40%, transparent), 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 @media (max-width: 640px) {

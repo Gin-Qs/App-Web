@@ -14,8 +14,8 @@ export const supabaseConfig: SupabaseConfig = { url, anonKey }
 // Demo accounts seeded in the database (password is the same for all three).
 export const DEMO_ACCOUNTS = [
   { label: 'Cliente (Acme Foods)', email: 'cliente@acmefoods.mx', role: 'customer' },
-  { label: 'Empleada (Ana)', email: 'ana@ginqs.mx', role: 'employee' },
-  { label: 'Admin (Gabriel)', email: 'gabriel@ginqs.mx', role: 'admin' },
+  { label: 'Empleada (Ana)', email: 'ana@fleeter.mx', role: 'employee' },
+  { label: 'Admin (Gabriel)', email: 'gabriel@fleeter.mx', role: 'admin' },
 ] as const
 
 export const DEMO_PASSWORD = 'Demo1234!'

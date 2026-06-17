@@ -1,6 +1,6 @@
-# Gin-Qs Logistics
+# Fleeter — Soluciones Logísticas
 
-B2B logistics platform for Gin-Qs: a public marketing site plus a secure,
+B2B logistics platform for Fleeter: a public marketing site plus a secure,
 role-aware customer/employee portal with **real-time cargo tracking**, invoicing
 and credit-line visibility. Built as a monorepo so a future **iOS/Android app**
 reuses the same backend and shared business logic.
@@ -60,8 +60,8 @@ Password for all three: **`Demo1234!`**
 | Role     | Email                  | Sees                                             |
 | -------- | ---------------------- | ------------------------------------------------ |
 | Customer | `cliente@acmefoods.mx` | Only Acme Foods' cargo, trips, invoices, credit  |
-| Employee | `ana@ginqs.mx`         | All customers, trips (live), invoices            |
-| Admin    | `gabriel@ginqs.mx`     | Everything                                        |
+| Employee | `ana@fleeter.mx`         | All customers, trips (live), invoices            |
+| Admin    | `gabriel@fleeter.mx`     | Everything                                        |
 
 ## What's implemented
 

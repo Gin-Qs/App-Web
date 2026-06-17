@@ -135,10 +135,10 @@ export function RouteSpark({
 
   return (
     <svg className="route-spark" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
-      <path d={d} fill="none" stroke="#3b6dff" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
-      <circle cx={start[0]} cy={start[1]} r="3" fill="#6b7488" />
-      <circle cx={end[0]} cy={end[1]} r="3.5" fill="#34d399" />
-      <circle cx={cur[0]} cy={cur[1]} r="4.5" fill="#3b6dff" stroke="#fff" strokeWidth="1.5" />
+      <path d={d} fill="none" stroke="#e65100" strokeWidth="2" strokeLinecap="round" opacity="0.75" />
+      <circle cx={start[0]} cy={start[1]} r="3" fill="#847f7a" />
+      <circle cx={end[0]} cy={end[1]} r="3.5" fill="#43c267" />
+      <circle cx={cur[0]} cy={cur[1]} r="4.5" fill="#e65100" stroke="#fff" strokeWidth="1.5" />
     </svg>
   )
 }

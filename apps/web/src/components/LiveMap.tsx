@@ -20,10 +20,10 @@ interface LiveMapProps {
 }
 
 const TONE_COLORS: Record<NonNullable<MapMarker['tone']>, string> = {
-  info: '#2563eb',
-  warn: '#d97706',
-  success: '#059669',
-  muted: '#64748b',
+  info: '#e65100', // Naranja Fleeter
+  warn: '#f9a825',
+  success: '#43c267',
+  muted: '#847f7a',
 }
 
 function truckIcon(color: string) {
@@ -66,7 +66,7 @@ export function LiveMap({ markers, trail, height = 320, fallbackCenter = [23.634
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
         {trail && trail.length > 1 && (
-          <Polyline positions={trail} pathOptions={{ color: '#2563eb', weight: 3, opacity: 0.6 }} />
+          <Polyline positions={trail} pathOptions={{ color: '#e65100', weight: 3, opacity: 0.65 }} />
         )}
         {markers.map((m) => (
           <Marker key={m.id} position={[m.lat, m.lon]} icon={truckIcon(TONE_COLORS[m.tone ?? 'info'])}>

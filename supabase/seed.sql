@@ -1,9 +1,9 @@
 -- =====================================================================
--- Gin-Qs Logistics — demo seed data
+-- Fleeter — demo seed data
 -- Demo password for ALL accounts: Demo1234!
 --   cliente@acmefoods.mx  (customer, Acme Foods)
---   ana@ginqs.mx          (employee)
---   gabriel@ginqs.mx      (admin)
+--   ana@fleeter.mx          (employee)
+--   gabriel@fleeter.mx      (admin)
 -- Safe to re-run (uses ON CONFLICT DO NOTHING).
 -- =====================================================================
 
@@ -24,11 +24,11 @@ insert into auth.users (
   email_change_token_current, phone_change, phone_change_token, reauthentication_token
 ) values
   ('00000000-0000-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000001', 'authenticated', 'authenticated',
-   'ana@ginqs.mx', crypt('Demo1234!', gen_salt('bf')), now(), now(), now(),
+   'ana@fleeter.mx', crypt('Demo1234!', gen_salt('bf')), now(), now(), now(),
    '{"provider":"email","providers":["email"]}', '{"full_name":"Ana Rivera","role":"employee"}',
    '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000002', 'authenticated', 'authenticated',
-   'gabriel@ginqs.mx', crypt('Demo1234!', gen_salt('bf')), now(), now(), now(),
+   'gabriel@fleeter.mx', crypt('Demo1234!', gen_salt('bf')), now(), now(), now(),
    '{"provider":"email","providers":["email"]}', '{"full_name":"Gabriel (DG)","role":"admin"}',
    '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000003', 'authenticated', 'authenticated',
@@ -38,8 +38,8 @@ insert into auth.users (
 on conflict (id) do nothing;
 
 insert into auth.identities (provider_id, user_id, identity_data, provider, last_sign_in_at, created_at, updated_at) values
-  ('aaaaaaaa-0000-0000-0000-000000000001', 'aaaaaaaa-0000-0000-0000-000000000001', '{"sub":"aaaaaaaa-0000-0000-0000-000000000001","email":"ana@ginqs.mx"}', 'email', now(), now(), now()),
-  ('aaaaaaaa-0000-0000-0000-000000000002', 'aaaaaaaa-0000-0000-0000-000000000002', '{"sub":"aaaaaaaa-0000-0000-0000-000000000002","email":"gabriel@ginqs.mx"}', 'email', now(), now(), now()),
+  ('aaaaaaaa-0000-0000-0000-000000000001', 'aaaaaaaa-0000-0000-0000-000000000001', '{"sub":"aaaaaaaa-0000-0000-0000-000000000001","email":"ana@fleeter.mx"}', 'email', now(), now(), now()),
+  ('aaaaaaaa-0000-0000-0000-000000000002', 'aaaaaaaa-0000-0000-0000-000000000002', '{"sub":"aaaaaaaa-0000-0000-0000-000000000002","email":"gabriel@fleeter.mx"}', 'email', now(), now(), now()),
   ('aaaaaaaa-0000-0000-0000-000000000003', 'aaaaaaaa-0000-0000-0000-000000000003', '{"sub":"aaaaaaaa-0000-0000-0000-000000000003","email":"cliente@acmefoods.mx"}', 'email', now(), now(), now())
 on conflict do nothing;
 

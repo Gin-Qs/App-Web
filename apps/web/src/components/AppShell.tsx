@@ -23,7 +23,7 @@ export function AppShell() {
     <div className="app-shell">
       <header className="app-bar">
         <Link to="/app" className="brand">
-          Gin-Qs <span>Logistics</span>
+          Fleet<span>er</span>
         </Link>
         <div className="app-bar-right">
           <div className="who">
