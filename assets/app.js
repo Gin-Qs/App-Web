@@ -1,5 +1,7 @@
 (function () {
+  // Degrees of latitude/longitude to move the simulated marker each refresh.
   const SIMULATED_MOVEMENT_DELTA = 0.01;
+  // Degrees around the marker used to render the map bounding box.
   const MAP_BBOX_OFFSET = 0.2;
 
   const loginForm = document.getElementById('login-form');
@@ -61,8 +63,9 @@
     }
 
     updateLiveMap();
-    if (!liveMapIntervalId) {
-      liveMapIntervalId = window.setInterval(updateLiveMap, 5000);
-    }
+    liveMapIntervalId = window.setInterval(updateLiveMap, 5000);
+    window.addEventListener('beforeunload', function () {
+      window.clearInterval(liveMapIntervalId);
+    });
   }
 })();
