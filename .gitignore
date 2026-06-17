@@ -31,3 +31,4 @@ supabase/.branches/
 
 # build artifacts
 apps/web/dist/
+.vercel
