@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuth } from './auth/AuthProvider'
 import { LandingPage } from './pages/LandingPage'
+import { TechnologyPage } from './pages/TechnologyPage'
+import { SupportPage } from './pages/SupportPage'
 import { LoginPage } from './pages/LoginPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { TripDetailPage } from './pages/TripDetailPage'
@@ -19,6 +21,8 @@ export function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/tecnologia" element={<TechnologyPage />} />
+      <Route path="/soporte" element={<SupportPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route
         element={
