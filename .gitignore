@@ -32,3 +32,8 @@ supabase/.branches/
 # build artifacts
 apps/web/dist/
 .vercel
+
+# AI agent skills (installed via npx; reinstall with impeccable / skills add)
+.claude/skills/
+.agents/
+skills-lock.json
