@@ -5,9 +5,10 @@ const U = (id: string, w = 1400) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`
 
 export const PHOTOS = {
-  road: U('1601584115197-04ecc0da31d7'), // cargo truck on the road
+  hero: U('1601584115197-04ecc0da31d7', 1800), // cargo truck on the road (cinematic)
+  road: U('1586528116311-ad8dd3c8310d'), // truck
   warehouse: U('1553413077-190dd305871c'), // logistics warehouse
   control: U('1521737604893-d14cc237f11d'), // team at screens (ops / support)
-  cold: U('1605908502724-9093a79a1b39'), // refrigerated / pallets
+  produce: U('1542838132-92c53300491e', 1200), // market produce (fruits/veg)
   support: U('1556761175-5973dc0f32e7', 1000), // support agent with headset
 }

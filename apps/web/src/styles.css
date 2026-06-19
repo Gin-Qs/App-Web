@@ -1721,3 +1721,178 @@ a.row-title:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* =====================================================================
+   Cinematic hero + sectors + Nosotros (about/values)
+   ===================================================================== */
+:root {
+  --hero-scrim: linear-gradient(95deg, rgba(10, 10, 12, 0.93) 0%, rgba(10, 10, 12, 0.72) 46%, rgba(10, 10, 12, 0.5) 100%),
+    linear-gradient(0deg, rgba(10, 10, 12, 0.9), transparent 42%);
+}
+
+.hero-cine {
+  position: relative;
+  margin-top: 1.25rem;
+  border-radius: 28px;
+  border: 1px solid var(--glass-border);
+  overflow: hidden;
+  min-height: min(80vh, 660px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  isolation: isolate;
+}
+.hero-cine-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #0c0c0e;
+  background-size: cover;
+  background-position: center;
+}
+.hero-cine-ghost {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(5rem, 22vw, 17rem);
+  letter-spacing: -0.05em;
+  line-height: 0.8;
+  color: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.hero-cine-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 4rem 2rem 1.5rem;
+}
+.hero-cine-copy {
+  max-width: 560px;
+}
+.hero-cine-copy .eyebrow {
+  color: var(--accent-2);
+}
+.hero-cine-copy h1 {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 5.2vw, 4rem);
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  margin: 0 0 1rem;
+  color: #fff;
+  text-wrap: balance;
+}
+.hero-cine-copy p {
+  font-size: 1.12rem;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 1.6rem;
+  max-width: 48ch;
+}
+.hero-cine-card {
+  justify-self: end;
+  width: 100%;
+  max-width: 380px;
+}
+.hero-cine-foot {
+  position: relative;
+  z-index: 2;
+  padding: 0 2rem 1.6rem;
+}
+.sector-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.sector-chip {
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+.btn-glass {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+@media (max-width: 900px) {
+  .hero-cine-inner {
+    grid-template-columns: 1fr;
+    padding: 3rem 1.4rem 1rem;
+  }
+  .hero-cine-card {
+    justify-self: stretch;
+    max-width: 420px;
+  }
+  .hero-cine-foot {
+    padding: 0 1.4rem 1.4rem;
+  }
+}
+
+/* ---- Nosotros (about + values) ---- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+.about-intro .pull-quote {
+  margin-top: 1.2rem;
+}
+.values {
+  display: grid;
+  gap: 0.85rem;
+}
+.value-item {
+  display: flex;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.value-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.value-item h3 {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+}
+.value-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+@media (max-width: 860px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

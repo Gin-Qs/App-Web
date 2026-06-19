@@ -13,9 +13,10 @@ scaling nationally.
 
 Tagline: **"No somos el más barato; somos el que no te deja colgado."**
 
-## Target users
-- B2B shippers: central de abasto / distribuidores de perecederos, alimentos con cadena
-  de frío, agroindustria, manufactura ligera que necesita trazabilidad y cumplimiento fiscal.
+## Target users (current focus)
+- Productores y distribuidores de **alimentos perecederos** (frutas, verduras, legumbres),
+  **abarrotes**, y **carga general**. Small/early participation from **empresas**;
+  formalizing toward companies is a FUTURE expansion, not the current pitch.
 - Buyer mindset: risk-averse, burned by informal carriers, value reliability and
   visibility over lowest price.
 
@@ -27,8 +28,9 @@ Tagline: **"No somos el más barato; somos el que no te deja colgado."**
 4. Facturación completa — CFDI + Carta Porte en 24 h, 100% deducible.
 5. Seguridad documentada — GPS, candados satelitales, botón de pánico; **seguro de carga
    opcional según el cliente** (NOT mandatory).
-6. Cadena de frío con monitoreo de temperatura en vivo.
+6. Crédito y estado de cuenta visibles en el panel.
 7. Reportes mensuales de cumplimiento.
+   (PLANNED, not yet available — do NOT advertise: cadena de frío / monitoreo de temperatura.)
 
 ## Brand personality (3 words)
 Confiable · Tecnológico · Cercano. Professional but warm; "tú" not "usted"; short, direct

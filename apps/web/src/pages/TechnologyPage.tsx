@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import {
   NavigationArrow,
-  ThermometerSimple,
+  Gauge,
   Receipt,
   ShieldCheck,
   ChartLineUp,
@@ -16,7 +16,7 @@ import { PHOTOS } from '../marketing/media'
 
 const CAPS = [
   { icon: NavigationArrow, title: 'Rastreo GPS en vivo', body: 'Posición de cada unidad en tiempo real, con ruta, velocidad y ETA. Link compartible para tu equipo.' },
-  { icon: ThermometerSimple, title: 'Telemetría y cadena de frío', body: 'Monitoreo de temperatura en vivo para perecederos, con alertas si algo se sale de rango.' },
+  { icon: Gauge, title: 'Telemetría de la unidad', body: 'Velocidad, ruta y paradas en tiempo real, con alertas si algo se sale de lo planeado.' },
   { icon: DeviceMobile, title: 'Panel para cliente y operación', body: 'La misma plataforma para ti y para nosotros: viajes, mapa, facturas y crédito en un solo lugar.' },
   { icon: Receipt, title: 'Facturación automatizada', body: 'CFDI y Carta Porte generados en 24 horas, listos para deducir.' },
   { icon: ShieldCheck, title: 'Seguridad documentada', body: 'GPS, candados satelitales y botón de pánico. Seguro de carga opcional según tu necesidad.' },
@@ -80,7 +80,7 @@ export function TechnologyPage() {
         <div className="feature-text">
           <h2>Visibilidad de extremo a extremo</h2>
           <p>
-            Desde que tu carga sale hasta que llega, todo queda registrado: posición, temperatura,
+            Desde que tu carga sale hasta que llega, todo queda registrado: posición, ruta,
             tiempos y evidencia de entrega. Sin llamadas para preguntar dónde va.
           </p>
           <ul className="ticks">

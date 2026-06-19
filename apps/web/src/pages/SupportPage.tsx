@@ -30,7 +30,7 @@ const FAQ = [
   { q: '¿Con quién hablo cuando tengo una duda?', a: 'Con tu ejecutivo de cuenta asignado. Tienes su WhatsApp y teléfono directo desde el primer viaje.' },
   { q: '¿Qué pasa si mi carga se retrasa?', a: 'Te avisamos de inmediato con el motivo y el nuevo tiempo estimado. La proactividad es parte del servicio.' },
   { q: '¿El seguro de carga está incluido?', a: 'Es opcional. Lo contratas solo si tu carga lo necesita; nosotros te asesoramos según el tipo de mercancía.' },
-  { q: '¿Reciben envíos con cadena de frío?', a: 'Sí, con monitoreo de temperatura en vivo y alertas si algo se sale de rango.' },
+  { q: '¿Qué tipo de carga mueven?', a: 'Frutas, verduras, legumbres, abarrotes y carga general. Planeamos cada ruta para entregar a tiempo.' },
 ]
 
 export function SupportPage() {
