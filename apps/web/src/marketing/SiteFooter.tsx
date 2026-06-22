@@ -15,10 +15,10 @@ export function SiteFooter() {
 
         <div className="footer-col">
           <h4>Plataforma</h4>
-          <a href="/#servicios">Servicios</a>
+          <Link to="/servicios">Servicios</Link>
           <Link to="/tecnologia">Tecnología</Link>
           <Link to="/soporte">Soporte</Link>
-          <a href="/#nosotros">Nosotros</a>
+          <Link to="/nosotros">Nosotros</Link>
         </div>
 
         <div className="footer-col">

@@ -1866,6 +1866,14 @@ a.row-title:hover {
   display: grid;
   gap: 0.85rem;
 }
+.values-2 {
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 640px) {
+  .values-2 {
+    grid-template-columns: 1fr;
+  }
+}
 .value-item {
   display: flex;
   gap: 0.85rem;

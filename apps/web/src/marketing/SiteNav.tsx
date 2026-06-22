@@ -4,10 +4,10 @@ import { List, X, MagnifyingGlass } from '@phosphor-icons/react'
 import { ThemeToggle } from '../components/ThemeToggle'
 
 const LINKS = [
-  { label: 'Servicios', to: '/#servicios' },
+  { label: 'Servicios', to: '/servicios' },
   { label: 'Tecnología', to: '/tecnologia' },
   { label: 'Soporte', to: '/soporte' },
-  { label: 'Nosotros', to: '/#nosotros' },
+  { label: 'Nosotros', to: '/nosotros' },
 ]
 
 export function SiteNav() {
