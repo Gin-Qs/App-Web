@@ -2,7 +2,9 @@ import { useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { useAuth } from './auth/AuthProvider'
 import { LandingPage } from './pages/LandingPage'
+import { ServicesPage } from './pages/ServicesPage'
 import { TechnologyPage } from './pages/TechnologyPage'
+import { AboutPage } from './pages/AboutPage'
 import { SupportPage } from './pages/SupportPage'
 import { RastreoPage } from './pages/RastreoPage'
 import { LoginPage } from './pages/LoginPage'
@@ -42,7 +44,9 @@ export function App() {
       <ScrollManager />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/servicios" element={<ServicesPage />} />
         <Route path="/tecnologia" element={<TechnologyPage />} />
+        <Route path="/nosotros" element={<AboutPage />} />
         <Route path="/soporte" element={<SupportPage />} />
         <Route path="/rastreo" element={<RastreoPage />} />
         <Route path="/login" element={<LoginPage />} />

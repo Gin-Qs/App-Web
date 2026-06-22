@@ -108,7 +108,7 @@ export function RastreoPage() {
                   <div>
                     <span className="track-fact-label">Ruta</span>
                     <span className="track-fact-value">
-                      {found.origin_label ?? '—'} → {found.destination_label ?? '—'}
+                      {found.origin_label ?? 'Sin dato'} → {found.destination_label ?? 'Sin dato'}
                     </span>
                   </div>
                   <div>

@@ -217,7 +217,6 @@ export function LandingPage() {
       {/* TECHNOLOGY teaser */}
       <section className="section feature-split reverse">
         <div className="feature-text">
-          <span className="eyebrow">Tecnología</span>
           <h2>Una empresa de tecnología que mueve carga</h2>
           <p>
             Telemetría, automatización y datos en cada viaje. La misma plataforma que usa nuestro
