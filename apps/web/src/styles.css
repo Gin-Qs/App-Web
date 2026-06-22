@@ -2061,3 +2061,54 @@ section[id],
     flex-direction: column;
   }
 }
+
+/* =====================================================================
+   v5 — coherence pass: mobile fit + press feedback + custom easing
+   ===================================================================== */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Buttons: stronger easing, hover only on hover-capable devices, press state */
+.btn {
+  transition: transform 160ms var(--ease-out), border-color 160ms ease,
+    background 160ms ease, box-shadow 200ms ease;
+}
+.btn:hover {
+  transform: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+}
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Comparison table fits small screens (was overflowing ~14px) */
+@media (max-width: 600px) {
+  .compare {
+    grid-template-columns: 1fr 48px 48px;
+    gap: 0.2rem 0.4rem;
+  }
+  .compare-head {
+    font-size: 0.72rem;
+    padding: 0.4rem 0.2rem;
+  }
+  .compare-label {
+    font-size: 0.88rem;
+    padding-right: 0.3rem;
+  }
+  .compare-cell {
+    min-height: 40px;
+  }
+}
+
+/* Hard guard against any horizontal overflow on small screens */
+@media (max-width: 600px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
