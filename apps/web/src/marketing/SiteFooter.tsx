@@ -43,7 +43,7 @@ export function SiteFooter() {
 
       <div className="footer-base">
         <span>© {new Date().getFullYear()} Fleeter Soluciones Logísticas S.A. de C.V.</span>
-        <span>Toluca · CDMX · Puebla — y creciendo</span>
+        <span>Toluca · CDMX · Puebla · y creciendo</span>
       </div>
     </footer>
   )

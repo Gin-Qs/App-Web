@@ -114,7 +114,7 @@ export function TripDetailPage() {
         <Card title="Detalle del viaje">
           <dl className="detail">
             <dt>Carga</dt>
-            <dd>{trip.cargo_description ?? '—'}</dd>
+            <dd>{trip.cargo_description ?? 'Sin dato'}</dd>
             <dt>Salida</dt>
             <dd>{formatDateTime(trip.departure_at)}</dd>
             <dt>ETA</dt>
