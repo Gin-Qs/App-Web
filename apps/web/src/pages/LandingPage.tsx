@@ -24,7 +24,7 @@ import { SiteFooter } from '../marketing/SiteFooter'
 import { TrackingPreview } from '../components/TrackingPreview'
 import { PHOTOS } from '../marketing/media'
 
-const SECTORS = ['Frutas y verduras', 'Legumbres', 'Abarrotes', 'Carga general', 'Empresas (próximamente)']
+const SECTORS = ['Carga general', 'Perecederos', 'Abarrotes', 'Empresas (próximamente)']
 
 const STATS = [
   { big: '7', label: 'Puntos de contacto por viaje' },
@@ -94,10 +94,10 @@ export function LandingPage() {
 
         <div className="hero-cine-inner">
           <div className="hero-cine-copy reveal-group">
-            <span className="eyebrow">Perecederos · Abarrotes · Carga general</span>
+            <span className="eyebrow">Transporte de carga en México</span>
             <h1>Tu carga, visible en tiempo real.</h1>
             <p>
-              Movemos frutas, verduras, abarrotes y carga general por México. Sabes dónde está tu
+              Movemos tu carga por México, incluidos perecederos y abarrotes. Sabes dónde está tu
               mercancía en todo momento, te avisamos en cada etapa y facturamos al día.
             </p>
             <div className="hero-actions">
@@ -246,8 +246,7 @@ export function LandingPage() {
             <p className="lead">
               Fleeter nació en Toluca, Estado de México, para cambiar una realidad: el transporte de
               carga del país opera mayormente sin factura, sin seguro y sin visibilidad. Empezamos
-              con productores y distribuidores de alimentos perecederos, abarrotes y carga general, y
-              vamos creciendo hacia más empresas.
+              moviendo carga, incluidos perecederos y abarrotes, y vamos creciendo hacia más empresas.
             </p>
             <p className="pull-quote">No somos el más barato; somos el que no te deja colgado.</p>
           </div>

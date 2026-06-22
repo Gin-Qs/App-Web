@@ -35,7 +35,7 @@ export function TrackingPreview() {
       </div>
 
       <div className="track-foot">
-        <span>22 tarimas · frutas y verduras</span>
+        <span>22 tarimas · carga</span>
         <span className="track-upd">Hace 1 min</span>
       </div>
     </div>
