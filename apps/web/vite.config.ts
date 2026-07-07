@@ -11,6 +11,18 @@ export default defineConfig({
       '@ginqs/core': path.resolve(__dirname, '../../packages/core/src/index.ts'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Stable vendor chunks: app deploys don't bust the (rarely-changing)
+        // framework/client caches in visitors' browsers.
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router-dom'],
+          supabase: ['@supabase/supabase-js'],
+        },
+      },
+    },
+  },
   server: {
     host: true,
     port: 5173,

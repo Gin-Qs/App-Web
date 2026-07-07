@@ -323,8 +323,10 @@ function revenueByMonth(invoices: Invoice[]): { labels: string[]; data: number[]
   const index = new Map(buckets.map((b, i) => [b.key, i]))
   for (const inv of invoices) {
     if (!inv.issued_at) continue
-    const d = new Date(inv.issued_at)
-    const idx = index.get(`${d.getFullYear()}-${d.getMonth()}`)
+    // issued_at is a date-only string (YYYY-MM-DD); parse it directly instead
+    // of via Date (which reads it as UTC and can shift it to the prior month).
+    const [y, m] = inv.issued_at.split('-').map(Number)
+    const idx = index.get(`${y}-${m - 1}`)
     if (idx != null) buckets[idx].total += Number(inv.amount)
   }
   return { labels: buckets.map((b) => b.label), data: buckets.map((b) => Math.round(b.total / 1000)) }

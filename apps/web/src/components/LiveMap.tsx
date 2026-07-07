@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from 'react-leaflet'
 import { useTheme } from '../theme'
 

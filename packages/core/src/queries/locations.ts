@@ -1,18 +1,24 @@
 import type { AppSupabaseClient } from '../supabase'
 import type { TripLocation } from '../types'
 
-/** Full ordered breadcrumb trail for one trip (oldest -> newest). */
+/**
+ * Ordered breadcrumb trail for one trip (oldest -> newest), capped at the
+ * most recent `limit` points so long-running trips don't ship megabytes of
+ * history to the browser just to draw a polyline.
+ */
 export async function getTripTrail(
   client: AppSupabaseClient,
   tripId: string,
+  limit = 500,
 ): Promise<TripLocation[]> {
   const { data, error } = await client
     .from('trip_locations')
     .select('*')
     .eq('trip_id', tripId)
-    .order('recorded_at', { ascending: true })
+    .order('recorded_at', { ascending: false })
+    .limit(limit)
   if (error) throw error
-  return data ?? []
+  return (data ?? []).reverse()
 }
 
 /** Latest known position for a single trip, or null if none recorded yet. */
@@ -33,7 +39,9 @@ export async function getLatestLocation(
 
 /**
  * Latest position for many trips at once, keyed by trip_id. Used to place a
- * marker per active shipment on the dashboard map.
+ * marker per active shipment on the dashboard map. Reads the
+ * `trip_latest_locations` view (one row per trip, RLS still applies) instead
+ * of downloading every breadcrumb ever recorded.
  */
 export async function getLatestLocations(
   client: AppSupabaseClient,
@@ -41,16 +49,15 @@ export async function getLatestLocations(
 ): Promise<Record<string, TripLocation>> {
   if (tripIds.length === 0) return {}
   const { data, error } = await client
-    .from('trip_locations')
+    .from('trip_latest_locations')
     .select('*')
     .in('trip_id', tripIds)
-    .order('recorded_at', { ascending: false })
   if (error) throw error
 
   const latest: Record<string, TripLocation> = {}
   for (const row of data ?? []) {
-    // rows are newest-first, so the first one seen per trip is the latest
-    if (!latest[row.trip_id]) latest[row.trip_id] = row
+    // View columns are typed nullable, but every row comes from a NOT NULL base table.
+    if (row.trip_id != null) latest[row.trip_id] = row as TripLocation
   }
   return latest
 }
