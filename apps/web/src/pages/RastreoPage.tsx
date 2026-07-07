@@ -11,6 +11,7 @@ import {
 import { supabase } from '../lib/supabase'
 import { SiteNav } from '../marketing/SiteNav'
 import { SiteFooter } from '../marketing/SiteFooter'
+import { whatsappWithMessage } from '../marketing/content'
 import { Badge, Card, Chip, EmptyState } from '../components/ui'
 import { LiveMap, type MapMarker } from '../components/LiveMap'
 
@@ -87,8 +88,15 @@ export function RastreoPage() {
           {state.kind === 'empty' && (
             <Card>
               <EmptyState>
-                No encontramos la guía <strong>{ref}</strong>. Revisa el número o escríbenos por
-                WhatsApp y te ayudamos.
+                No encontramos la guía <strong>{ref}</strong>. Revisa el número o{' '}
+                <a
+                  href={whatsappWithMessage(`Hola, necesito ayuda para rastrear mi guía ${ref}.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  escríbenos por WhatsApp
+                </a>{' '}
+                y te ayudamos.
               </EmptyState>
             </Card>
           )}

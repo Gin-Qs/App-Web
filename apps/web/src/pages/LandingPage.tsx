@@ -1,12 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  NavigationArrow,
-  ChatCircleDots,
-  Receipt,
-  ShieldCheck,
-  Wallet,
-  ChartLineUp,
   ArrowRight,
   Check,
   X,
@@ -14,37 +8,18 @@ import {
   WhatsappLogo,
   UserCircleGear,
   Cpu,
-  ShieldCheckered,
-  Lightning,
-  Eye,
-  Handshake,
 } from '@phosphor-icons/react'
 import { SiteNav } from '../marketing/SiteNav'
 import { SiteFooter } from '../marketing/SiteFooter'
 import { TrackingPreview } from '../components/TrackingPreview'
 import { PHOTOS } from '../marketing/media'
-
-const SECTORS = ['Carga general', 'Perecederos', 'Abarrotes', 'Empresas (próximamente)']
+import { MAILTO_URL, SECTORS, VALUES, VALUE_PROPS, whatsappWithMessage } from '../marketing/content'
 
 const STATS = [
   { big: '7', label: 'Puntos de contacto por viaje' },
   { big: '24 h', label: 'Factura CFDI y Carta Porte' },
   { big: '24/7', label: 'Monitoreo de la unidad' },
   { big: '100%', label: 'Viajes con GPS y factura' },
-]
-
-const VALUE_PROPS = [
-  {
-    icon: NavigationArrow,
-    title: 'Trazabilidad en tiempo real',
-    body: 'GPS con link compartible: ves tu carga en todo momento, con histórico de ruta y ETA.',
-    featured: true,
-  },
-  { icon: ChatCircleDots, title: 'Comunicación proactiva', body: '7 puntos de contacto por viaje. Nunca preguntas dónde va tu mercancía.' },
-  { icon: Receipt, title: 'Facturación completa', body: 'CFDI más Carta Porte dentro de 24 horas. 100% deducible.' },
-  { icon: ShieldCheck, title: 'Seguridad documentada', body: 'GPS, candados satelitales y botón de pánico. Seguro de carga opcional, según tu necesidad.' },
-  { icon: Wallet, title: 'Crédito y estado de cuenta', body: 'Línea de crédito y tus facturas, siempre visibles en tu panel.' },
-  { icon: ChartLineUp, title: 'Reportes mensuales', body: 'Métricas de cumplimiento reales para tus registros y decisiones.' },
 ]
 
 const COMPARE = [
@@ -56,14 +31,6 @@ const COMPARE = [
   'Reportes de cumplimiento',
 ] as const
 
-const VALUES = [
-  { icon: ShieldCheckered, title: 'Confiabilidad', body: 'Cumplimos lo que prometemos. Si dijimos a las 8:00, llega a las 8:00.' },
-  { icon: ShieldCheck, title: 'Seguridad', body: 'GPS, candados satelitales y protocolos. Protegemos tu carga y a nuestros operadores.' },
-  { icon: Lightning, title: 'Innovación', body: 'Somos una empresa de tecnología que mueve carga, no al revés.' },
-  { icon: Eye, title: 'Transparencia', body: 'Visibilidad total. Si algo sale mal, lo comunicamos primero.' },
-  { icon: Handshake, title: 'Compromiso', body: 'Con nuestros clientes, nuestro equipo y un sector que necesita formalizarse.' },
-]
-
 const PROCESS = [
   { n: 1, title: 'Cotización clara', body: 'Nos dices qué mueves y a dónde. Te damos precio y tiempo, sin letras chiquitas.' },
   { n: 2, title: 'Confirmación', body: 'Asignamos unidad y operador. Recibes los datos del viaje por escrito.' },
@@ -74,12 +41,6 @@ const PROCESS = [
 ]
 
 export function LandingPage() {
-  const [sent, setSent] = useState(false)
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setSent(true)
-  }
-
   return (
     <div className="landing">
       <SiteNav />
@@ -118,7 +79,7 @@ export function LandingPage() {
         <div className="hero-cine-foot">
           <div className="sector-chips">
             {SECTORS.map((s) => (
-              <span key={s} className="sector-chip">{s}</span>
+              <span key={s.title} className="sector-chip">{s.title}</span>
             ))}
           </div>
         </div>
@@ -291,29 +252,81 @@ export function LandingPage() {
               Cuéntanos qué necesitas mover y a dónde. Te contactamos el mismo día.
             </p>
           </div>
-          {sent ? (
-            <div className="notice success">¡Gracias! Recibimos tu solicitud y te contactamos pronto.</div>
-          ) : (
-            <form className="card form" onSubmit={handleSubmit}>
-              <label>
-                Nombre o empresa
-                <input type="text" placeholder="Tu nombre o empresa" required />
-              </label>
-              <label>
-                Correo o WhatsApp
-                <input type="text" placeholder="Para contactarte" required />
-              </label>
-              <label>
-                ¿Qué necesitas mover?
-                <textarea rows={4} placeholder="Producto, origen y destino" />
-              </label>
-              <button type="submit" className="btn btn-primary">Solicitar cotización</button>
-            </form>
-          )}
+          <ContactForm />
         </div>
       </section>
 
       <SiteFooter />
     </div>
+  )
+}
+
+/**
+ * Quote request form. There is no backend for leads yet, so submitting
+ * composes the request into the visitor's email client (mailto) — and offers
+ * WhatsApp with the same prefilled message as an alternative.
+ */
+function ContactForm() {
+  const [sent, setSent] = useState(false)
+  const [message, setMessage] = useState('')
+
+  function buildMessage(form: HTMLFormElement): string {
+    const data = new FormData(form)
+    return [
+      `Hola, quiero cotizar un envío.`,
+      `Nombre/empresa: ${data.get('nombre')}`,
+      `Contacto: ${data.get('contacto')}`,
+      `Necesito mover: ${data.get('detalle') || '(por definir)'}`,
+    ].join('\n')
+  }
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const msg = buildMessage(e.currentTarget)
+    setMessage(msg)
+    setSent(true)
+    window.location.href = `${MAILTO_URL}?subject=${encodeURIComponent('Solicitud de cotización')}&body=${encodeURIComponent(msg)}`
+  }
+
+  if (sent) {
+    return (
+      <div className="card">
+        <div className="notice success">
+          Abrimos tu correo con la solicitud lista para enviar. Si no se abrió, escríbenos
+          directamente y te contactamos el mismo día.
+        </div>
+        <div className="hero-actions">
+          <a
+            className="btn btn-primary"
+            href={whatsappWithMessage(message)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <WhatsappLogo weight="fill" size={18} /> Enviar por WhatsApp
+          </a>
+          <a className="btn btn-outline" href={MAILTO_URL}>
+            Escribir correo
+          </a>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <form className="card form" onSubmit={handleSubmit}>
+      <label>
+        Nombre o empresa
+        <input type="text" name="nombre" placeholder="Tu nombre o empresa" required />
+      </label>
+      <label>
+        Correo o WhatsApp
+        <input type="text" name="contacto" placeholder="Para contactarte" required />
+      </label>
+      <label>
+        ¿Qué necesitas mover?
+        <textarea rows={4} name="detalle" placeholder="Producto, origen y destino" />
+      </label>
+      <button type="submit" className="btn btn-primary">Solicitar cotización</button>
+    </form>
   )
 }
