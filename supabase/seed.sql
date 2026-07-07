@@ -17,6 +17,8 @@ on conflict (id) do nothing;
 -- ---------- Demo auth users (+ email identities) ----------
 -- Token columns are set to '' (not NULL) so GoTrue can authenticate them.
 -- The on_auth_user_created trigger creates the matching public.profiles rows.
+-- SECURITY: role/company_id live in raw_APP_meta_data (server-controlled);
+-- the trigger deliberately ignores roles in client-supplied user_metadata.
 insert into auth.users (
   instance_id, id, aud, role, email, encrypted_password,
   email_confirmed_at, created_at, updated_at, raw_app_meta_data, raw_user_meta_data,
@@ -25,15 +27,15 @@ insert into auth.users (
 ) values
   ('00000000-0000-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000001', 'authenticated', 'authenticated',
    'ana@fleeter.mx', crypt('Demo1234!', gen_salt('bf')), now(), now(), now(),
-   '{"provider":"email","providers":["email"]}', '{"full_name":"Ana Rivera","role":"employee"}',
+   '{"provider":"email","providers":["email"],"role":"employee"}', '{"full_name":"Ana Rivera"}',
    '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000002', 'authenticated', 'authenticated',
    'gabriel@fleeter.mx', crypt('Demo1234!', gen_salt('bf')), now(), now(), now(),
-   '{"provider":"email","providers":["email"]}', '{"full_name":"Gabriel (DG)","role":"admin"}',
+   '{"provider":"email","providers":["email"],"role":"admin"}', '{"full_name":"Gabriel (DG)"}',
    '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000003', 'authenticated', 'authenticated',
    'cliente@acmefoods.mx', crypt('Demo1234!', gen_salt('bf')), now(), now(), now(),
-   '{"provider":"email","providers":["email"]}', '{"full_name":"Acme Foods Ops","role":"customer","company_id":"11111111-1111-1111-1111-111111111111"}',
+   '{"provider":"email","providers":["email"],"role":"customer","company_id":"11111111-1111-1111-1111-111111111111"}', '{"full_name":"Acme Foods Ops"}',
    '', '', '', '', '', '', '', '')
 on conflict (id) do nothing;
 

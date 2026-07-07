@@ -10,15 +10,14 @@
     <meta name="theme-color" content="#141416" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <title>Fleeter — Soluciones Logísticas</title>
-    <script>
-      // Apply persisted theme before first paint to avoid a flash.
-      document.documentElement.dataset.theme = localStorage.getItem('fleeter-theme') || 'dark'
-    </script>
+    <!-- Static file (not inline) so the CSP can stay `script-src 'self'`. -->
+    <script src="/theme-init.js"></script>
   </head>
   <body>
     <div id="root"></div>

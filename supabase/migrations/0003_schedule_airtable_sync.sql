@@ -4,6 +4,10 @@
 -- until the AIRTABLE_TOKEN secret is configured, so this is safe to schedule.
 -- The anon key below is public and only used to pass the JWT gateway; the
 -- function runs with the service role internally.
+-- Hardening (optional): set a SYNC_SECRET secret on the Edge Function and
+-- add ,'x-sync-secret','<the-secret>' to the headers object below (store it
+-- in Vault rather than committing it) — then only callers who know the
+-- secret can trigger the sync, not anyone holding the public anon key.
 -- Unschedule with: select cron.unschedule('fleeter-airtable-sync');
 -- =====================================================================
 create extension if not exists pg_net;
