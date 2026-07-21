@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
-import { DEMO_ACCOUNTS, DEMO_PASSWORD } from '../config'
+import { DEMO_ACCOUNTS, DEMO_LOGIN_ENABLED, DEMO_PASSWORD } from '../auth/demoAccounts'
 
 export function LoginPage() {
   const { session, loading, signIn } = useAuth()
@@ -69,17 +69,19 @@ export function LoginPage() {
           </button>
         </form>
 
-        <div className="demo-box">
-          <span className="demo-title">Cuentas de demostración</span>
-          <div className="demo-buttons">
-            {DEMO_ACCOUNTS.map((acc) => (
-              <button key={acc.email} className="btn btn-outline btn-sm" onClick={() => fillDemo(acc.email)}>
-                {acc.label}
-              </button>
-            ))}
+        {DEMO_LOGIN_ENABLED && (
+          <div className="demo-box">
+            <span className="demo-title">Cuentas de demostración</span>
+            <div className="demo-buttons">
+              {DEMO_ACCOUNTS.map((acc) => (
+                <button key={acc.email} className="btn btn-outline btn-sm" onClick={() => fillDemo(acc.email)}>
+                  {acc.label}
+                </button>
+              ))}
+            </div>
+            <span className="demo-hint">Contraseña: {DEMO_PASSWORD}</span>
           </div>
-          <span className="demo-hint">Contraseña: {DEMO_PASSWORD}</span>
-        </div>
+        )}
       </div>
     </div>
   )

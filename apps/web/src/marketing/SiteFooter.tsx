@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { WhatsappLogo, Phone, EnvelopeSimple } from '@phosphor-icons/react'
+import { CONTACT, MAILTO_URL, WHATSAPP_URL } from './content'
 
 export function SiteFooter() {
   return (
@@ -23,14 +24,14 @@ export function SiteFooter() {
 
         <div className="footer-col">
           <h4>Contacto</h4>
-          <a href="https://wa.me/5210000000000" className="footer-contact">
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="footer-contact">
             <WhatsappLogo size={17} weight="fill" /> WhatsApp directo
           </a>
-          <a href="tel:+520000000000" className="footer-contact">
+          <a href={CONTACT.phoneHref} className="footer-contact">
             <Phone size={17} weight="fill" /> Llamar
           </a>
-          <a href="mailto:hola@fleeter.mx" className="footer-contact">
-            <EnvelopeSimple size={17} weight="fill" /> hola@fleeter.mx
+          <a href={MAILTO_URL} className="footer-contact">
+            <EnvelopeSimple size={17} weight="fill" /> {CONTACT.email}
           </a>
         </div>
 

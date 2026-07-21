@@ -54,8 +54,11 @@ npm run typecheck  # type-check only
 
 ## Demo accounts
 
-Sign in at `/login` (the login page has one-click buttons for each).
-Password for all three: **`Demo1234!`**
+Sign in at `/login`. In `npm run dev` the login page shows one-click demo
+buttons (they also appear in a deployed build only if it was built with
+`VITE_DEMO_LOGIN=1`). The shared demo password lives in `supabase/seed.sql` —
+it is intentionally **not** shipped in production bundles or printed here.
+Rotate or delete these accounts before going live with real data.
 
 | Role     | Email                  | Sees                                             |
 | -------- | ---------------------- | ------------------------------------------------ |
@@ -79,6 +82,10 @@ Password for all three: **`Demo1234!`**
   trail, trip facts, and position history — updates in real time.
 - **Security**: Postgres Row-Level Security scopes every query. Customers can
   only ever read their own company's rows; staff read all. Verified end-to-end.
+  Roles are assigned server-side only (`raw_app_meta_data`) — signup metadata
+  can never grant staff access. The deploy ships a strict CSP + hardening
+  headers (`vercel.json`), and demo credentials are stripped from production
+  bundles. See `docs/ARCHITECTURE.md` → *Security model*.
 - **Live movement**: a `pg_cron` job (`ginqs-fleet-sim`) advances in-transit
   trucks once a minute so the map moves. Replace it with real GPS telemetry by
   inserting into `public.trip_locations` (see `docs/ARCHITECTURE.md`).

@@ -290,7 +290,26 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      trip_latest_locations: {
+        Row: {
+          heading: number | null
+          id: number | null
+          lat: number | null
+          lon: number | null
+          recorded_at: string | null
+          speed_kph: number | null
+          trip_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_locations_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       auth_user_company: { Args: Record<string, never>; Returns: string }
@@ -299,6 +318,22 @@ export type Database = {
         Returns: Database["public"]["Enums"]["user_role"]
       }
       is_staff: { Args: Record<string, never>; Returns: boolean }
+      simulate_fleet_movement: { Args: Record<string, never>; Returns: undefined }
+      track_shipment: {
+        Args: { p_ref: string }
+        Returns: {
+          delivered_at: string | null
+          departure_at: string | null
+          destination_label: string | null
+          eta: string | null
+          last_at: string | null
+          last_lat: number | null
+          last_lon: number | null
+          origin_label: string | null
+          reference: string
+          status: Database["public"]["Enums"]["trip_status"]
+        }[]
+      }
     }
     Enums: {
       invoice_status: "draft" | "sent" | "paid" | "overdue"

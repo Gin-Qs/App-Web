@@ -3,11 +3,19 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
 // One-way sync: Supabase (source of truth) -> Airtable (team workspace).
 // Upserts Clientes, Facturas, Viajes and an Analytics KPI summary.
+//
 // Secrets/env:
 //   AIRTABLE_TOKEN   (required) Airtable Personal Access Token
 //   AIRTABLE_BASE_ID (optional) defaults to the Fleeter base
+//   SYNC_SECRET      (optional) when set, callers must send it in the
+//                    `x-sync-secret` header. The platform JWT gateway already
+//                    rejects tokenless calls; this additionally locks the
+//                    function so knowing the public anon key is not enough.
+//                    Remember to add the header to the pg_cron job when you
+//                    enable it (see supabase/migrations/0003).
 const AIRTABLE_BASE_ID = Deno.env.get("AIRTABLE_BASE_ID") ?? "appLCnTe4TcvwOTE3";
 const AIRTABLE_TOKEN = Deno.env.get("AIRTABLE_TOKEN");
+const SYNC_SECRET = Deno.env.get("SYNC_SECRET");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
@@ -45,7 +53,13 @@ async function airtableUpsert(table: string, mergeOn: string[], records: { field
   return { table, upserted };
 }
 
-Deno.serve(async () => {
+Deno.serve(async (req) => {
+  if (req.method !== "POST") {
+    return Response.json({ ok: false, error: "method not allowed" }, { status: 405 });
+  }
+  if (SYNC_SECRET && req.headers.get("x-sync-secret") !== SYNC_SECRET) {
+    return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
+  }
   if (!AIRTABLE_TOKEN) {
     return Response.json({
       ok: false, skipped: true,
@@ -55,23 +69,21 @@ Deno.serve(async () => {
   try {
     const supabase = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
-    const [companiesRes, invoicesRes, tripsRes] = await Promise.all([
+    const [companiesRes, invoicesRes, tripsRes, latestRes] = await Promise.all([
       supabase.from("companies").select("*"),
       supabase.from("invoices").select("*"),
       supabase.from("trips").select("*, company:companies(name)"),
+      // One query instead of one per trip (view: newest GPS point per trip).
+      supabase.from("trip_latest_locations").select("trip_id,lat,lon,recorded_at"),
     ]);
-    for (const r of [companiesRes, invoicesRes, tripsRes]) if (r.error) throw r.error;
+    for (const r of [companiesRes, invoicesRes, tripsRes, latestRes]) if (r.error) throw r.error;
     const companies = companiesRes.data ?? [];
     const invoices = invoicesRes.data ?? [];
     const trips = tripsRes.data ?? [];
 
-    // Latest known position per trip.
     const latestByTrip: Record<string, { lat: number; lon: number; recorded_at: string }> = {};
-    for (const t of trips) {
-      const { data: loc } = await supabase
-        .from("trip_locations").select("lat,lon,recorded_at")
-        .eq("trip_id", t.id).order("recorded_at", { ascending: false }).limit(1).maybeSingle();
-      if (loc) latestByTrip[t.id] = loc as any;
+    for (const loc of latestRes.data ?? []) {
+      latestByTrip[loc.trip_id] = loc;
     }
 
     const nameById = new Map(companies.map((c: any) => [c.id, c.name]));
@@ -126,6 +138,8 @@ Deno.serve(async () => {
 
     return Response.json({ ok: true, at: now, synced });
   } catch (e) {
-    return Response.json({ ok: false, error: String(e) }, { status: 500 });
+    // Log the detail server-side only; never echo internals to the caller.
+    console.error("sync-airtable failed:", e);
+    return Response.json({ ok: false, error: "sync failed" }, { status: 500 });
   }
 });

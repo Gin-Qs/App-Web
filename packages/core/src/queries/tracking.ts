@@ -23,10 +23,7 @@ export async function trackShipment(
   client: AppSupabaseClient,
   reference: string,
 ): Promise<ShipmentTracking | null> {
-  // rpc isn't in the generated Database types; cast to call it.
-  const { data, error } = await (client as unknown as {
-    rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: ShipmentTracking[] | null; error: unknown }>
-  }).rpc('track_shipment', { p_ref: reference })
+  const { data, error } = await client.rpc('track_shipment', { p_ref: reference })
   if (error) throw error
   return data && data.length ? data[0] : null
 }

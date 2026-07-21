@@ -57,8 +57,25 @@ Effective rules:
   back-office write flows.
 
 A new `auth.users` row automatically gets a `profiles` row via the
-`on_auth_user_created` trigger, reading `full_name` / `role` / `company_id`
-from the user's metadata.
+`on_auth_user_created` trigger. `full_name` comes from user metadata, but
+`role` / `company_id` are read **only from `raw_app_meta_data`** (which just
+the service role can set). Client-supplied signup metadata can never grant
+`employee`/`admin` — self-signups always land as a plain `customer`
+(migration `0005_security_hardening.sql`).
+
+Additional hardening:
+
+- The RLS helper functions are not executable by `anon` (anonymous visitors
+  only get the `track_shipment` RPC, which returns minimal data for an exact
+  guía reference).
+- `trip_latest_locations` is a `security_invoker` view (newest GPS point per
+  trip) so clients and the Airtable sync fetch one row per trip instead of the
+  whole breadcrumb history. RLS still applies through it.
+- The web deploy sends a strict Content-Security-Policy and the usual
+  hardening headers (see `vercel.json`); the theme bootstrap lives in
+  `apps/web/public/theme-init.js` so no inline scripts are needed.
+- Demo credentials only render on `/login` in dev builds (or when
+  `VITE_DEMO_LOGIN=1`); production bundles contain no credentials.
 
 Verified end-to-end: anonymous users see nothing; the Acme customer sees only
 Acme's data; staff see all.
@@ -98,7 +115,18 @@ schema change, regenerate it (Supabase MCP `generate_typescript_types`, or
 
 ## Known follow-ups
 
-- Code-split the web bundle (currently a single ~550 kB chunk).
-- Enable Supabase **leaked-password protection** in Auth settings.
+- Enable Supabase **leaked-password protection** in Auth settings (dashboard
+  toggle; can't be set via SQL).
+- **Disable public email signups** in Auth settings if onboarding stays
+  invite-only (today a self-signup only yields an unprivileged `customer`
+  profile with no company, but there is no reason to leave the door open).
+- Rotate/disable the seeded demo accounts before going live with real data.
 - Add write policies + back-office screens for creating trips/invoices.
-- Wire the landing "request info" form to a `leads` table or email function.
+- Replace the mailto/WhatsApp quote form with a `leads` table or email
+  function when a backend inbox exists.
+- Optional: set a `SYNC_SECRET` on the `sync-airtable` Edge Function (and add
+  the `x-sync-secret` header to the pg_cron job) so the public anon key alone
+  can't trigger syncs.
+- `pg_net` lives in the `public` schema (Supabase linter WARN). The extension
+  doesn't support `SET SCHEMA`; accepted as-is — its callable surface is the
+  `net` schema, not `public`.

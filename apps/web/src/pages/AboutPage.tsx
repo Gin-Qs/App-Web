@@ -1,24 +1,9 @@
 import { Link } from 'react-router-dom'
-import {
-  ShieldCheckered,
-  ShieldCheck,
-  Lightning,
-  Eye,
-  Handshake,
-  MapPin,
-  ArrowRight,
-} from '@phosphor-icons/react'
+import { MapPin, ArrowRight } from '@phosphor-icons/react'
 import { SiteNav } from '../marketing/SiteNav'
 import { SiteFooter } from '../marketing/SiteFooter'
 import { PHOTOS } from '../marketing/media'
-
-const VALUES = [
-  { icon: ShieldCheckered, title: 'Confiabilidad', body: 'Cumplimos lo que prometemos. Si dijimos a las 8:00, llega a las 8:00.' },
-  { icon: ShieldCheck, title: 'Seguridad', body: 'GPS, candados satelitales y protocolos. Protegemos tu carga y a nuestros operadores.' },
-  { icon: Lightning, title: 'Innovación', body: 'Somos una empresa de tecnología que mueve carga, no al revés.' },
-  { icon: Eye, title: 'Transparencia', body: 'Visibilidad total. Si algo sale mal, lo comunicamos primero.' },
-  { icon: Handshake, title: 'Compromiso', body: 'Con nuestros clientes, nuestro equipo y un sector que necesita formalizarse.' },
-]
+import { VALUES } from '../marketing/content'
 
 export function AboutPage() {
   return (

@@ -12,6 +12,7 @@ import {
 import { SiteNav } from '../marketing/SiteNav'
 import { SiteFooter } from '../marketing/SiteFooter'
 import { PHOTOS } from '../marketing/media'
+import { CONTACT, WHATSAPP_URL } from '../marketing/content'
 
 const PILLARS = [
   { icon: UserCircleGear, title: 'Ejecutivo de cuenta dedicado', body: 'Una persona que conoce tu operación y tus rutas. No un call center que vuelve a empezar cada vez.' },
@@ -48,7 +49,7 @@ export function SupportPage() {
               personas que conocen tu cuenta y resuelven rápido.
             </p>
             <div className="hero-actions">
-              <a className="btn btn-primary btn-lg" href="https://wa.me/5210000000000">
+              <a className="btn btn-primary btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                 <WhatsappLogo weight="fill" size={18} /> Escríbenos por WhatsApp
               </a>
               <a className="btn btn-outline btn-lg" href="/#contacto">Solicitar información</a>
@@ -90,8 +91,8 @@ export function SupportPage() {
             ))}
           </ul>
           <div className="support-channels">
-            <a className="chan" href="https://wa.me/5210000000000"><WhatsappLogo size={20} weight="duotone" /> WhatsApp</a>
-            <a className="chan" href="tel:+520000000000"><Phone size={20} weight="duotone" /> Teléfono</a>
+            <a className="chan" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><WhatsappLogo size={20} weight="duotone" /> WhatsApp</a>
+            <a className="chan" href={CONTACT.phoneHref}><Phone size={20} weight="duotone" /> Teléfono</a>
             <a className="chan" href="/#contacto"><ChatCircleDots size={20} weight="duotone" /> Formulario</a>
           </div>
         </div>
@@ -123,7 +124,7 @@ export function SupportPage() {
           <p>Cuéntanos qué mueves. Te contactamos el mismo día.</p>
           <div className="hero-actions">
             <a className="btn btn-primary btn-lg" href="/#contacto">Solicitar información</a>
-            <a className="btn btn-outline btn-lg" href="https://wa.me/5210000000000">WhatsApp directo</a>
+            <a className="btn btn-outline btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
           </div>
         </div>
       </section>
